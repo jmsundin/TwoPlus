@@ -9,8 +9,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.auth.User
 import com.sundin.beso.activities.*
-import com.sundin.beso.models.ActivityModel
+import com.sundin.beso.models.ThingModel
 //import com.sundin.beso.models.User
 import com.sundin.beso.utils.Constants
 
@@ -24,14 +25,10 @@ class FirestoreDatabase {
 /**
  * A custom class where we will add the operation performed for the firestore database.
  */
-class FirestoreClass {
+class FirestoreDB {
 
-    // Create a instance of Firebase Firestore
     private val mFireStore = FirebaseFirestore.getInstance()
 
-    /**
-     * A function to make an entry of the registered user in the firestore database.
-     */
     fun registerUser(activity: SignUpActivity, userInfo: User) {
 
         mFireStore.collection(Constants.USERS)

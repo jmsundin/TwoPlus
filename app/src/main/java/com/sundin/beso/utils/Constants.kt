@@ -5,6 +5,8 @@ import com.sundin.beso.models.ThingModel
 
 object Constants {
 
+    val USERS: String
+
     val thingsList = listOf<ThingModel>(
         ThingModel(
             thingImage = R.drawable.friends_hanging_out_stock_image,

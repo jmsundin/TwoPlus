@@ -10,22 +10,22 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.auth.User
 import com.sundin.beso.R
-import com.sundin.beso.database.FirestoreClass
+import com.sundin.beso.database.FirestoreDB
 import com.sundin.beso.databinding.ActivitySignUpBinding
 
 class SignUpActivity: BaseActivity() {
 
-    lateinit var binding: ActivitySignUpBinding
+    lateinit var bindingSignUpScreen: ActivitySignUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         setContentView(R.layout.activity_sign_up)
 
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        bindingSignUpScreen = ActivitySignUpBinding.inflate(layoutInflater)
 
         setupActionBar()
 
-        val btnSignUp = binding.btnSignUpSubmit
+        val btnSignUp = bindingSignUpScreen.btnSignUpSubmit
         btnSignUp.setOnClickListener {
             registerUser()
         }
@@ -33,7 +33,7 @@ class SignUpActivity: BaseActivity() {
 
 
     private fun setupActionBar() {
-        val toolbarSignUpActivity = binding.toolbarSignUpActivity
+        val toolbarSignUpActivity = bindingSignUpScreen.toolbarSignUpActivity
         setSupportActionBar(toolbarSignUpActivity)
 
         val actionBar = supportActionBar
@@ -48,9 +48,9 @@ class SignUpActivity: BaseActivity() {
 
     private fun registerUser() {
         // Here we get the text from editText and trim the space
-        val etPersonName = binding.etPersonName
-        val etEmail = binding.etEmail
-        val etPassword = binding.etPassword
+        val etPersonName = bindingSignUpScreen.etPersonName
+        val etEmail = bindingSignUpScreen.etEmail
+        val etPassword = bindingSignUpScreen.etPassword
 
         val name: String = etPersonName.text.toString().trim { it <= ' ' }
         val email: String = etEmail.text.toString().trim { it <= ' ' }
@@ -71,18 +71,18 @@ class SignUpActivity: BaseActivity() {
                             // Registered Email
                             val registeredEmail = firebaseUser.email!!
 
-                            val user = User(
-                                firebaseUser.uid, name, registeredEmail
-                            )
+//                            val user = User(
+//                                firebaseUser.uid, name, registeredEmail
+//                            )
 
                             // call the registerUser function of FirestoreClass to make an entry in the database.
-                            FirestoreClass().registerUser(this@SignUpActivity, user)
-                        } else {
-                            Toast.makeText(
-                                this@SignUpActivity,
-                                task.exception!!.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            FirestoreDB().registerUser(this@SignUpActivity, firebaseUser)
+//                        } else {
+//                            Toast.makeText(
+//                                this@SignUpActivity,
+//                                task.exception!!.message,
+//                                Toast.LENGTH_SHORT
+//                            ).show()
                         }
                     })
         }
@@ -100,6 +100,10 @@ class SignUpActivity: BaseActivity() {
             }
             TextUtils.isEmpty(password) -> {
                 showErrorSnackBar("Please enter password.")
+                false
+            }
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                showErrorSnackBar("Please enter a proper email.")
                 false
             }
             else -> {

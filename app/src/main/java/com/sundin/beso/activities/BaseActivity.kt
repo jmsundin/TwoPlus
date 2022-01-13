@@ -3,16 +3,19 @@ package com.sundin.beso.activities
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.sundin.beso.R
+import com.sundin.beso.databinding.DialogProgressBinding
 
-//import kotlinx.android.synthetic.main.dialog_progress.*
 
 open class BaseActivity : AppCompatActivity() {
+
+    lateinit var bindingDiaglogProgress: DialogProgressBinding
 
     private var doubleBackToExitPressedOnce = false
 
@@ -23,6 +26,8 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        bindingDiaglogProgress = DialogProgressBinding.inflate(layoutInflater)
     }
 
     /**
@@ -35,7 +40,8 @@ open class BaseActivity : AppCompatActivity() {
         The resource will be inflated, adding all top-level views to the screen.*/
         mProgressDialog.setContentView(R.layout.dialog_progress)
 
-        mProgressDialog.tv_progress_text.text = text
+        val tvProgressText = bindingDiaglogProgress.tvProgressText
+        tvProgressText.text = text
 
         //Start the dialog and display it on screen.
         mProgressDialog.show()
@@ -65,7 +71,8 @@ open class BaseActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         ).show()
 
-        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+        Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false },
+            2000)
     }
 
     fun showErrorSnackBar(message: String) {

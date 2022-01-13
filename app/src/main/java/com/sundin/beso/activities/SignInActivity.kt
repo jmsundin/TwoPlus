@@ -16,10 +16,14 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sundin.beso.R
+import com.sundin.beso.databinding.ActivitySignInBinding
+
 //import kotlinx.android.synthetic.main.activity_login.*
 
 
 class SignInActivity : BaseActivity(){
+
+    lateinit var bindingSignInScreen: ActivitySignInBinding
 
     private companion object LoginActivity {
         private const val TAG = "LoginActivity"
@@ -36,6 +40,8 @@ class SignInActivity : BaseActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+
+        bindingSignInScreen = ActivitySignInBinding.inflate(layoutInflater)
 
         setupActionBar()
 
@@ -58,7 +64,7 @@ class SignInActivity : BaseActivity(){
     }
 
     private fun setupActionBar() {
-        val toolbarSignUpActivity = binding.toolbarSignUpActivity
+        val toolbarSignUpActivity = bindingSignInScreen.toolbarSignUpActivity
         setSupportActionBar(toolbarSignUpActivity)
 
         val actionBar = supportActionBar

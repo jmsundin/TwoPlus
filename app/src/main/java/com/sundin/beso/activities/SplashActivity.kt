@@ -15,17 +15,20 @@ class SplashActivity: BaseActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler(Looper.getMainLooper()).postDelayed({
+
+            startActivity(Intent(this@SplashActivity, IntroActivity::class.java))
+
             // Get the current user id
-            val currentUserID = FirestoreClass().getCurrentUserID()
+//            val currentUserID = FirestoreClass().getCurrentUserID()
             // Start the Intro Activity
 
-            if (currentUserID.isNotEmpty()) {
-                // Start the Main Activity
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-            } else {
-                // Start the Intro Activity
-                startActivity(Intent(this@SplashActivity, IntroActivity::class.java))
-            }
+//            if (currentUserID.isNotEmpty()) {
+//                // Start the Main Activity
+//                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+//            } else {
+//                // Start the Intro Activity
+//                startActivity(Intent(this@SplashActivity, IntroActivity::class.java))
+//            }
             finish() // Call this when your activity is done and should be closed.
         }, 2500) // Here we pass the delay time in milliSeconds after which the splash activity will disappear.
 
