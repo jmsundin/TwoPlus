@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_create"
-        android:name="com.sundin.beso.ui.create.CreateFragment"
+        android:name="com.sundin.beso.ui.create.NewThingFragment"
         android:label="@string/title_create"
-        tools:layout="@layout/fragment_create" />
+        tools:layout="@layout/fragment_new_thing" />
 
     <fragment
         android:id="@+id/navigation_map"
