@@ -1,6 +1,6 @@
 package com.sundin.beso.models
 
-data class ThingModel (
+data class ThingToDoModel (
     val thingImage: Int,
     val thingName: String,
     val thingDescription: String,
@@ -8,4 +8,6 @@ data class ThingModel (
     val thingDate: String,
     val thingLocation: String,
     val thingDistanceFromUser: Float,
-    val peopleGoingToThing: List<String>)
+    var friendsGoingToThing: ArrayList<String>,
+    var othersGoingToThing: ArrayList<String>
+    )
