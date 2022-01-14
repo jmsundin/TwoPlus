@@ -1,6 +1,6 @@
 package com.sundin.beso.models
 
-data class ThingToDoModel (
+data class ThingModel (
     val thingImage: Int,
     val thingName: String,
     val thingDescription: String,

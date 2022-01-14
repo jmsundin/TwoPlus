@@ -28,7 +28,7 @@ class FragmentThing : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_thing_to_do, container, false)
+        return inflater.inflate(R.layout.`fragment_thing.xml`, container, false)
     }
 
     companion object {

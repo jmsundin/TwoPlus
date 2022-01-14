@@ -1,15 +1,15 @@
 package com.sundin.beso.utils
 
 import com.sundin.beso.R
-import com.sundin.beso.models.ThingToDoModel
+import com.sundin.beso.models.ThingModel
 
 object Constants {
 
     // TODO: Take out hardcoded USERS string
     const val USERS: String = "Jon Sundin"
 
-    val thingsList = listOf<ThingToDoModel>(
-        ThingToDoModel(
+    val thingsList = arrayListOf<ThingModel>(
+        ThingModel(
             thingImage = R.drawable.friends_hanging_out_stock_image,
             thingName = "Hanging out",
             thingDescription = "Hanging out with friends and making new ones.",
@@ -17,9 +17,10 @@ object Constants {
             thingDate = "Today",
             thingLocation = "1234 Culver Ave\nCulver City, CA",
             thingDistanceFromUser = 1.2F,
-            peopleGoingToThing = listOf<String>("friends")
+            friendsGoingToThing = arrayListOf("Kendall", "George"),
+            othersGoingToThing = arrayListOf("Bill")
         ),
-        ThingToDoModel(
+        ThingModel(
             thingImage = R.drawable.coffee_stock_image,
             thingName = "Getting coffee",
             thingDescription = "Anyone want to get coffee?",
@@ -27,9 +28,10 @@ object Constants {
             thingDate = "Today",
             thingLocation = "1234 Culver Ave\nCulver City, CA",
             thingDistanceFromUser = 0.5F,
-            peopleGoingToThing = listOf<String>("friends")
+            friendsGoingToThing = arrayListOf("Mark", "Sara"),
+            othersGoingToThing = arrayListOf("Kenny")
         ),
-        ThingToDoModel(
+        ThingModel(
             thingImage = R.drawable.boardgame_stock_image,
             thingName = "Playing boardgames",
             thingDescription = "Who wants to play some boardgames?",
@@ -37,9 +39,10 @@ object Constants {
             thingDate = "Today",
             thingLocation = "1234 Culver Ave\nCulver City, CA",
             thingDistanceFromUser = 2.6F,
-            peopleGoingToThing = listOf<String>("friends")
+            friendsGoingToThing = arrayListOf("Mark", "Sara"),
+            othersGoingToThing = arrayListOf("Kenny")
         ),
-        ThingToDoModel(
+        ThingModel(
             thingImage = R.drawable.basketball_stock_image,
             thingName = "Playing basketball",
             thingDescription = "Who wants to get together for a pickup game of basketball?",
@@ -47,7 +50,8 @@ object Constants {
             thingDate = "Today",
             thingLocation = "1234 Culver Ave\nCulver City, CA",
             thingDistanceFromUser = 1.3F,
-            peopleGoingToThing = listOf<String>("friends")
+            friendsGoingToThing = arrayListOf("Mark", "Sara"),
+            othersGoingToThing = arrayListOf("Kenny")
     )
     )
 }

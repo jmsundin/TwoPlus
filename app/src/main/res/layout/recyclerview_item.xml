@@ -29,7 +29,7 @@
             android:layout_height="247dp">
 
             <ImageView
-                android:id="@+id/ivThingToDo"
+                android:id="@+id/ivThing"
                 android:layout_width="122dp"
                 android:layout_height="89dp"
                 android:layout_marginStart="6dp"
@@ -39,58 +39,58 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvThingToDoTitle"
+                android:id="@+id/tvThingTitle"
                 android:layout_width="114dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="4dp"
                 android:text="Hanging out"
                 android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@+id/ivThingToDo"
+                app:layout_constraintStart_toEndOf="@+id/ivThing"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvThingToDoDescription"
+                android:id="@+id/tvThingDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="Hanging out with friends"
-                app:layout_constraintStart_toEndOf="@+id/ivThingToDo"
-                app:layout_constraintTop_toBottomOf="@+id/tvThingToDoTitle" />
+                app:layout_constraintStart_toEndOf="@+id/ivThing"
+                app:layout_constraintTop_toBottomOf="@+id/tvThingTitle" />
 
             <TextView
-                android:id="@+id/tvThingToDoTime"
+                android:id="@+id/tvThingTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
                 android:text="Time: 7 PM tonight"
-                app:layout_constraintStart_toEndOf="@+id/ivThingToDo"
-                app:layout_constraintTop_toBottomOf="@+id/tvThingToDoDescription" />
+                app:layout_constraintStart_toEndOf="@+id/ivThing"
+                app:layout_constraintTop_toBottomOf="@+id/tvThingDescription" />
 
             <TextView
-                android:id="@+id/tvThingToDoDistanceFromUser"
+                android:id="@+id/tvThingDistanceFromUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="20dp"
                 android:text="Location: 5 miles away"
-                app:layout_constraintStart_toEndOf="@+id/ivThingToDo"
-                app:layout_constraintTop_toBottomOf="@+id/tvThingToDoTime" />
+                app:layout_constraintStart_toEndOf="@+id/ivThing"
+                app:layout_constraintTop_toBottomOf="@+id/tvThingTime" />
 
             <TextView
-                android:id="@+id/tvPeopleGoingToThingToDo"
+                android:id="@+id/tvPeopleGoingToThing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="132dp"
                 android:layout_marginTop="20dp"
                 android:text="People going: 2 friends, 1 other"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvThingToDoDistanceFromUser" />
+                app:layout_constraintTop_toBottomOf="@+id/tvThingDistanceFromUser" />
 
             <Button
-                android:id="@+id/btnGoToThingToDo"
+                android:id="@+id/btnGoToThing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="200dp"

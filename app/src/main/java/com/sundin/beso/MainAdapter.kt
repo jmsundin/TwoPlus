@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.sundin.beso.models.ThingToDoModel
+import com.sundin.beso.models.ThingModel
 
 
-class MainAdapter(private val context: Context, val thingToDoModelArrayList: ArrayList<ThingToDoModel?>?
+class MainAdapter(private val context: Context, private val thingsList: ArrayList<ThingModel>
 ) : RecyclerView.Adapter<MainAdapter.ViewHolder>(){
     //private val activityModelArrayList: ArrayList<ThingModel>
 
@@ -26,12 +26,12 @@ class MainAdapter(private val context: Context, val thingToDoModelArrayList: Arr
         : RecyclerView.ViewHolder(thingToDoCardView){
         // Your holder should contain and initialize a member variable
         // for any view that will be set as you render a row
-        val ivThingToDo: ImageView = thingToDoCardView.findViewById(R.id.ivThingToDo)
-        val tvThingToDoTitle: TextView = thingToDoCardView.findViewById(R.id.tvThingToDoTitle)
-        val tvThingToDoDescription: TextView = thingToDoCardView.findViewById(R.id.tvThingToDoDescription)
-        val tvThingToDoTime: TextView = thingToDoCardView.findViewById(R.id.tvThingToDoTime)
-        val tvThingToDoDistanceFromUser: TextView = thingToDoCardView.findViewById(R.id.tvThingToDoDistanceFromUser)
-        val tvPeopleGoingToThingToDo: TextView = thingToDoCardView.findViewById(R.id.tvPeopleGoingToThingToDo)
+        val ivThing: ImageView = thingToDoCardView.findViewById(R.id.ivThing)
+        val tvThingTitle: TextView = thingToDoCardView.findViewById(R.id.tvThingTitle)
+        val tvThingDescription: TextView = thingToDoCardView.findViewById(R.id.tvThingDescription)
+        val tvThingTime: TextView = thingToDoCardView.findViewById(R.id.tvThingTime)
+        val tvThingDistanceFromUser: TextView = thingToDoCardView.findViewById(R.id.tvThingDistanceFromUser)
+        val tvPeopleGoingToThing: TextView = thingToDoCardView.findViewById(R.id.tvPeopleGoingToThing)
     }
 
 
@@ -49,13 +49,21 @@ class MainAdapter(private val context: Context, val thingToDoModelArrayList: Arr
     // Involves populating data into the item through holder
     override fun onBindViewHolder(viewHolder: MainAdapter.ViewHolder, position: Int) {
         // Get the data model based on position
-        val thingToDo: ThingToDoModel? = thingToDoModelArrayList?.get(position)
+        val thing: ThingModel = thingsList[position]
         // Set item views based on your views and data model
-        val textView = viewHolder.ivThing
-        textView.setText(contact.name)
-        val button = viewHolder.messageButton
-        button.text = if (contact.isOnline) "Message" else "Offline"
-        button.isEnabled = contact.isOnline
+        val ivThing: ImageView = viewHolder.ivThing
+        val tvThingTitle: TextView = viewHolder.tvThingTitle
+        val tvThingDescription: TextView = viewHolder.tvThingDescription
+        val tvThingTime: TextView = viewHolder.tvThingTime
+        val tvThingDistanceFromUser: TextView = viewHolder.tvThingDistanceFromUser
+        val tvPeopleGoingToThing: TextView = viewHolder.tvPeopleGoingToThing
+
+        ivThing.setImageResource(thing.thingImage)
+        tvThingTitle.text = thing.thingName
+        tvThingDescription.text = thing.thingDescription
+        tvThingTime.text = thing.thingTime
+        tvThingDistanceFromUser.text = thing.thingDistanceFromUser.toString()
+        tvPeopleGoingToThing.text = thing.friendsGoingToThing.toString()
     }
 
 
@@ -64,7 +72,7 @@ class MainAdapter(private val context: Context, val thingToDoModelArrayList: Arr
         // of card items in recycler view.
        // return activityModelArrayList.size
         // TODO: take out hardcoded integer
-        return thingToDoModelArrayList!!.size
+        return thingsList.size
     }
 
     // View holder class for initializing of
@@ -78,12 +86,12 @@ class MainAdapter(private val context: Context, val thingToDoModelArrayList: Arr
         private val tvPeopleGoingToThing: TextView
 
         init {
-            ivThing = itemView.findViewById(R.id.ivThingToDo)
-            tvThingTitle = itemView.findViewById(R.id.tvThingToDoTitle)
-            tvThingDescription = itemView.findViewById(R.id.tvThingToDoDescription)
-            tvThingTime = itemView.findViewById(R.id.tvThingToDoTime)
-            tvThingDistanceFromUser = itemView.findViewById(R.id.tvThingToDoDistanceFromUser)
-            tvPeopleGoingToThing = itemView.findViewById(R.id.tvPeopleGoingToThingToDo)
+            ivThing = itemView.findViewById(R.id.ivThing)
+            tvThingTitle = itemView.findViewById(R.id.tvThingTitle)
+            tvThingDescription = itemView.findViewById(R.id.tvThingDescription)
+            tvThingTime = itemView.findViewById(R.id.tvThingTime)
+            tvThingDistanceFromUser = itemView.findViewById(R.id.tvThingDistanceFromUser)
+            tvPeopleGoingToThing = itemView.findViewById(R.id.tvPeopleGoingToThing)
         }
     }
 }
