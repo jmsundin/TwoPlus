@@ -1,23 +1,29 @@
 package com.sundin.beso.database
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.auth.User
 import com.sundin.beso.activities.*
-//import com.sundin.beso.models.User
+import com.sundin.beso.models.UserModel
+import com.sundin.beso.ui.profile.ProfileFragment
 import com.sundin.beso.utils.Constants
+import kotlinx.coroutines.internal.artificialFrame
 
 
 /**
  * A custom class where we will add the operation performed for the firestore database.
  */
-class FirestoreDB {
+class FirestoreClass {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val mFireStore = FirebaseFirestore.getInstance()
@@ -28,15 +34,14 @@ class FirestoreDB {
         database = Firebase.database
     }
 
-    fun registerUser(activity: SignUpActivity, userInfo: User) {
+    fun registerUser(activity: SignUpActivity, userInfo: UserModel) {
 
         mFireStore.collection(Constants.USERS)
             // Document ID for users fields. Here the document it is the User ID.
             .document(getCurrentUserID())
-            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we want to merge
             .set(userInfo, SetOptions.merge())
             .addOnSuccessListener {
-
                 // Here call a function of base activity for transferring the result to it.
                 activity.userRegisteredSuccess()
             }
@@ -59,28 +64,71 @@ class FirestoreDB {
 
         // A variable to assign the currentUserId if it is not null or else it will be blank.
         var currentUserID = ""
+
         if (currentUser != null) {
             currentUserID = currentUser.uid
+            Log.d("currentUserID: ", currentUserID)
         }
 
         return currentUserID
     }
 
-    /**
-     * A function to SignIn using firebase and get the user details from Firestore Database.
-     */
-//    fun loadUserData(activity: Activity, readBoardsList: Boolean = false) {
+    fun fetchUserData(activity: Activity?, fragment: Fragment? = null){
+        Log.d("currentUserID", getCurrentUserID())
+
+        mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+                val loggedInUser = document.toObject(UserModel::class.java)
+
+                when(activity){
+                    is SignInActivity -> activity.signInSuccess(loggedInUser)
+                    is MainActivity -> activity.loadUserProfileData(loggedInUser)
+                }
+                when(fragment){
+                    is ProfileFragment -> {
+                        Log.d("fetchUserData", loggedInUser.toString())
+                        fragment.loadUserProfile(loggedInUser)
+                    }
+                }
+
+            }.addOnFailureListener{ e ->
+                Log.e(activity?.javaClass?.simpleName, "Error: $e")
+            }
+
+    }
+
+    fun signInUser(){
+
+    }
+
+    fun signOutUser(){
+        auth.signOut()
+    }
+
+    fun deleteAccount(context: Context){
+        FirebaseAuth.getInstance().currentUser?.let {
+            mFireStore.collection(Constants.USERS).document(
+                it.uid).delete()
+            .addOnSuccessListener {
+                FirebaseAuth.getInstance().currentUser!!.delete().addOnCompleteListener { it ->
+                    Log.d("deleteAccount", it.toString())
+                    val intent: Intent = Intent(context, IntroActivity::class.java)
+                    context.startActivity(intent)
+                }
+                    .addOnFailureListener { e ->
+                        Log.e("deleteAccountFailure", e.toString())
+                    }
+            }
+        }
+    }
+
+//    fun getBoardsList(mainActivity: MainActivity) {
 //
-//        // Here we pass the collection name from which we wants the data.
-//        mFireStore.collection(Constants.USERS)
-//            // The document id to get the Fields of user.
-//            .document(getCurrentUserID())
-//            .get()
-//            .addOnSuccessListener { document ->
-//                Log.e(activity.javaClass.simpleName, document.toString())
-//
-//                // Here we have received the document snapshot which is converted into the User Data model object.
-//                val loggedInUser = document.toObject(User::class.java)!!
+//    }
+//    /**
+//     * A function to SignIn using firebase and get the user details from Firestore Database.
 //
 //                // Here call a function of base activity for transferring the result to it.
 //                when (activity) {
@@ -104,7 +152,7 @@ class FirestoreDB {
 //                    is MainActivity -> {
 //                        activity.hideProgressDialog()
 //                    }
-//                    is MyProfileActivity -> {
+//                    is ProfileActivity -> {
 //                        activity.hideProgressDialog()
 //                    }
 //                }
@@ -128,32 +176,6 @@ class FirestoreDB {
 //
 //                // Notify the success result.
 //
-//                when (activity) {
-//                    is MainActivity -> {
-//                        activity.tokenUpdateSuccess()
-//                    }
-//                    is MyProfileActivity -> {
-//                        activity.profileUpdateSuccess()
-//                    }
-//                }
-//            }
-//            .addOnFailureListener { e ->
-//                when (activity) {
-//                    is MainActivity -> {
-//                        activity.hideProgressDialog()
-//                    }
-//                    is MyProfileActivity -> {
-//                        activity.hideProgressDialog()
-//                    }
-//                }
-//
-//                Log.e(
-//                    activity.javaClass.simpleName,
-//                    "Error while creating a board.",
-//                    e
-//                )
-//            }
-//    }
 
     /**
      * A function for creating a board and making an entry in the database.
@@ -266,10 +288,10 @@ class FirestoreDB {
 //                Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
 //            }
 //    }
-//
-//    /**
-//     * A function to get the list of user details which is assigned to the board.
-//     */
+
+    /**
+     * A function to get the list of user details which is assigned to the board.
+     */
 //    fun getAssignedMembersListDetails(activity: Activity, assignedTo: ArrayList<String>) {
 //
 //        mFireStore.collection(Constants.USERS) // Collection Name
@@ -308,10 +330,10 @@ class FirestoreDB {
 //                )
 //            }
 //    }
-//
-//    /**
-//     * A function to get the user details from Firestore Database using the email address.
-//     */
+
+    /**
+     * A function to get the user details from Firestore Database using the email address.
+     */
 //    fun getMemberDetails(activity: MembersActivity, email: String) {
 //
 //        // Here we pass the collection name from which we wants the data.
@@ -341,10 +363,10 @@ class FirestoreDB {
 //                )
 //            }
 //    }
-//
-//    /**
-//     * A function to assign a updated members list to board.
-//     */
+
+    /**
+     * A function to assign a updated members list to board.
+     */
 //    fun assignMemberToBoard(activity: MembersActivity, board: Board, user: User) {
 //
 //        val assignedToHashMap = HashMap<String, Any>()

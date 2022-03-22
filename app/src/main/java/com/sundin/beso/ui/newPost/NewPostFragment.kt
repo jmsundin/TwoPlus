@@ -1,4 +1,4 @@
-package com.sundin.beso.ui.create
+package com.sundin.beso.ui.newPost
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -9,14 +9,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.sundin.beso.R
 
-import com.sundin.beso.databinding.FragmentNewThingBinding
+import com.sundin.beso.databinding.FragmentNewPostBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewThingFragment : Fragment(R.layout.fragment_new_thing) {
+class NewPostFragment : Fragment(R.layout.fragment_new_post) {
 
-    private lateinit var dashboardViewModel: CreateViewModel
-    private lateinit var bindingNewThingFragment: FragmentNewThingBinding
+    private lateinit var bindingNewPostFragment: FragmentNewPostBinding
 
 
     override fun onCreateView(
@@ -24,14 +23,14 @@ class NewThingFragment : Fragment(R.layout.fragment_new_thing) {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        bindingNewThingFragment = FragmentNewThingBinding.inflate(layoutInflater)
+        bindingNewPostFragment = FragmentNewPostBinding.inflate(layoutInflater)
 
-        val datePicker = bindingNewThingFragment.editTextDate
+        val datePicker = bindingNewPostFragment.editTextDate
         datePicker.setOnClickListener { view ->
             clickDatePicker(view)
         }
 
-        return bindingNewThingFragment.root
+        return bindingNewPostFragment.root
     }
 
     override fun onDestroyView() {
@@ -51,7 +50,7 @@ class NewThingFragment : Fragment(R.layout.fragment_new_thing) {
             // month returns as an integer, with Jan = 0
 
             val selectedDate: String = "${selectedMonth + 1}/$selectedDay/$selectedYear"
-            var tvSelectedDate: TextView = bindingNewThingFragment.editTextDate
+            var tvSelectedDate: TextView = bindingNewPostFragment.editTextDate
             tvSelectedDate.text = selectedDate
 
             val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)

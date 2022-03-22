@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "946499942931",
+    "firebase_url": "https://beso-31b-default-rtdb.firebaseio.com",
     "project_id": "beso-31b",
     "storage_bucket": "beso-31b.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "946499942931-6td03lt5896ea0uhedd4u0hu3qdno05t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sundin.beso",
+            "certificate_hash": "768c8d72f677fd0227c0f2e52a3e66bf8699fe5a"
+          }
+        },
         {
           "client_id": "946499942931-ql7g5dpi4j1gqml99khs6ie8k7p8ubtd.apps.googleusercontent.com",
           "client_type": 3

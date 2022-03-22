@@ -4,16 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.sundin.beso.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.sundin.beso.adapters.PostAdapter
+import com.sundin.beso.utils.Constants
 import com.sundin.beso.databinding.FragmentHomeBinding
+import com.sundin.beso.models.PostModel
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var mPosts: ArrayList<PostModel>
+
     private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
@@ -21,16 +22,20 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        ViewModelProvider(this)[HomeViewModel::class.java].also { homeViewModel = it }
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        // RECYCLERVIEW //
+        val rvPosts = _binding!!.rvPosts
+        mPosts = Constants.postsList
+        // Create adapter, pass in user data, and attach the adapter to the recyclerview to
+        // populate items
+        rvPosts.adapter = PostAdapter(mPosts)
+        // Set layout manager to position the items
+        rvPosts.layoutManager = LinearLayoutManager(activity)
+
+        return binding.root
     }
 
     override fun onDestroyView() {

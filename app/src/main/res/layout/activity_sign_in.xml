@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +8,7 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarSignUpActivity"
+        android:id="@+id/toolbarSignInActivity"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
@@ -24,55 +24,56 @@
         />
     </androidx.appcompat.widget.Toolbar>
 
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp">
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
 
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etEmail"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
 
-        <Button
-            android:id="@+id/btnSignUpSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="@string/sign_in"
-            android:textSize="20dp"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/app_color_deep_purple"/>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etEmailSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/gmail_sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"/>
-    </LinearLayout>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etPasswordSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-</androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/btnSignInSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="@string/sign_in"
+                android:textSize="20dp"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/app_color_deep_purple"/>
 
-</LinearLayout>
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/gmail_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:layout_margin="100dp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -15,7 +15,7 @@ import com.sundin.beso.databinding.DialogProgressBinding
 
 open class BaseActivity : AppCompatActivity() {
 
-    lateinit var bindingDiaglogProgress: DialogProgressBinding
+    lateinit var bindingDialogProgress: DialogProgressBinding
 
     private var doubleBackToExitPressedOnce = false
 
@@ -27,7 +27,7 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bindingDiaglogProgress = DialogProgressBinding.inflate(layoutInflater)
+        bindingDialogProgress = DialogProgressBinding.inflate(layoutInflater)
     }
 
     /**
@@ -40,7 +40,7 @@ open class BaseActivity : AppCompatActivity() {
         The resource will be inflated, adding all top-level views to the screen.*/
         mProgressDialog.setContentView(R.layout.dialog_progress)
 
-        val tvProgressText = bindingDiaglogProgress.tvProgressText
+        val tvProgressText = bindingDialogProgress.tvProgressText
         tvProgressText.text = text
 
         //Start the dialog and display it on screen.

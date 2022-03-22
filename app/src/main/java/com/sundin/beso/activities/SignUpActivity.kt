@@ -1,56 +1,59 @@
 package com.sundin.beso.activities
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.TextUtils
-import android.widget.Toast
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
+import android.util.Log
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.auth.User
 import com.sundin.beso.R
-import com.sundin.beso.database.FirestoreDB
-import com.sundin.beso.databinding.ActivitySignUpBinding
+import com.sundin.beso.database.FirestoreClass
+import com.sundin.beso.models.UserModel
+
 
 class SignUpActivity: BaseActivity() {
 
-    lateinit var bindingSignUpScreen: ActivitySignUpBinding
+    private lateinit var auth: FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-
-        bindingSignUpScreen = ActivitySignUpBinding.inflate(layoutInflater)
 
         setupActionBar()
 
-        val btnSignUp = bindingSignUpScreen.btnSignUpSubmit
-        btnSignUp.setOnClickListener {
+        auth = FirebaseAuth.getInstance()
+
+//        val btnBackSignUpScreen: ImageView = findViewById()
+        val btnSignUpSubmit: Button = findViewById(R.id.btnSignUpSubmit)
+        btnSignUpSubmit.setOnClickListener {
             registerUser()
         }
     }
 
 
     private fun setupActionBar() {
-        val toolbarSignUpActivity = bindingSignUpScreen.toolbarSignUpActivity
+//        val toolbarSignUpActivity = bindingSignUpScreen.toolbarSignUpActivity
+        val toolbarSignUpActivity: androidx.appcompat.widget.Toolbar? =
+            findViewById(R.id.toolbarSignUpActivity)
         setSupportActionBar(toolbarSignUpActivity)
 
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_black_color_back_24dp)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        toolbarSignUpActivity.setNavigationOnClickListener { onBackPressed() }
+        toolbarSignUpActivity?.setOnClickListener { onBackPressed() }
+        toolbarSignUpActivity
     }
 
 
     private fun registerUser() {
         // Here we get the text from editText and trim the space
-        val etPersonName = bindingSignUpScreen.etPersonName
-        val etEmail = bindingSignUpScreen.etEmail
-        val etPassword = bindingSignUpScreen.etPassword
+//        val etPersonName = bindingSignUpScreen.etPersonName
+//        val etEmail = bindingSignUpScreen.etEmail
+//        val etPassword = bindingSignUpScreen.etPassword
+
+        val etPersonName: EditText = findViewById(R.id.etPersonName)
+        val etEmail: EditText = findViewById(R.id.etEmailSignUp)
+        val etPassword: EditText = findViewById(R.id.etPasswordSignUp)
 
         val name: String = etPersonName.text.toString().trim { it <= ' ' }
         val email: String = etEmail.text.toString().trim { it <= ' ' }
@@ -59,32 +62,33 @@ class SignUpActivity: BaseActivity() {
         if (validateForm(name, email, password)) {
             // Show the progress dialog.
             showProgressDialog(resources.getString(R.string.please_wait))
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(
-                    OnCompleteListener<AuthResult> { task ->
 
-                        // If the registration is successfully done
-                        if (task.isSuccessful) {
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
 
-                            // Firebase registered user
-                            val firebaseUser: FirebaseUser = task.result!!.user!!
-                            // Registered Email
-                            val registeredEmail = firebaseUser.email!!
+                    // If the registration is successfully done
+                    if (task.isSuccessful) {
+                        Log.d("signup", "You have successfully signed up.")
 
-//                            val user = User(
-//                                firebaseUser.uid, name, registeredEmail
-//                            )
+                        // Firebase registered user
+                        val firebaseUser: FirebaseUser = task.result!!.user!!
+                        // Registered Email
+                        val registeredEmail = firebaseUser.email!!
 
-                            // call the registerUser function of FirestoreClass to make an entry in the database.
-//                            FirestoreDB().registerUser(this@SignUpActivity, firebaseUser)
-//                        } else {
-//                            Toast.makeText(
-//                                this@SignUpActivity,
-//                                task.exception!!.message,
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-                        }
-                    })
+                        val user = UserModel(
+                            firebaseUser.uid, R.drawable.man1_stock_photo.toString(), name, registeredEmail
+                        )
+                        // call the registerUser function of FirestoreClass to make an entry in the database.
+                        FirestoreClass().registerUser(this@SignUpActivity, user)
+
+                    } else {
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            task.exception!!.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
         }
     }
 
@@ -98,12 +102,12 @@ class SignUpActivity: BaseActivity() {
                 showErrorSnackBar("Please enter email.")
                 false
             }
-            TextUtils.isEmpty(password) -> {
-                showErrorSnackBar("Please enter password.")
-                false
-            }
             !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
                 showErrorSnackBar("Please enter a proper email.")
+                false
+            }
+            TextUtils.isEmpty(password) -> {
+                showErrorSnackBar("Please enter password.")
                 false
             }
             else -> {
@@ -124,11 +128,9 @@ class SignUpActivity: BaseActivity() {
         // Hide the progress dialog
         hideProgressDialog()
 
-        /**
-         * Here the new user registered is automatically signed-in so we just sign-out the user from firebase
-         * and send him to Intro Screen for Sign-In
-         */
-        FirebaseAuth.getInstance().signOut()
+        val intent: Intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("currentUser", auth.currentUser)
+        startActivity(intent)
         // Finish the Sign-Up Screen
         finish()
     }

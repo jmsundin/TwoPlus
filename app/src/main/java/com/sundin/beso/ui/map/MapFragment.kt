@@ -4,16 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.maps.SupportMapFragment
 import com.sundin.beso.databinding.FragmentMapBinding
 
 class MapFragment : Fragment() {
 
-    private lateinit var mapViewModel: MapViewModel
     private var _binding: FragmentMapBinding? = null
 
     // This property is only valid between onCreateView and
@@ -24,19 +19,11 @@ class MapFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
-        mapViewModel =
-            ViewModelProvider(this)[MapViewModel::class.java]
-
+        savedInstanceState: Bundle?
+    ): View {
 
         _binding = FragmentMapBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-//        val textView: TextView = binding.textMap
-//        mapViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {

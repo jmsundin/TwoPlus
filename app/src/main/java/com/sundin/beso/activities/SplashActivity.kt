@@ -4,39 +4,56 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.PersistableBundle
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.sundin.beso.R
-import com.sundin.beso.database.FirestoreDB
+import com.sundin.beso.database.FirestoreClass
+
+import com.sundin.beso.databinding.ActivitySplashBinding
 
 
 class SplashActivity: BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContentView(R.layout.activity_splash)
+    lateinit var bindingSplashActivity: ActivitySplashBinding
+    lateinit var auth: FirebaseAuth
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        bindingSplashActivity = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(bindingSplashActivity.root)
+
+        hideSystemBars()
+
+        auth = FirebaseAuth.getInstance()
 
         Handler(Looper.getMainLooper()).postDelayed({
-
-            startActivity(Intent(this@SplashActivity, IntroActivity::class.java))
-
             // Get the current user id
-            val currentUserID = FirestoreDB().getCurrentUserID()
-            // Start the Intro Activity
+            val currentUserID = FirestoreClass().getCurrentUserID()
 
+            // Start the Intro Activity
             if (currentUserID.isNotEmpty()) {
                 // Start the Main Activity
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                val intentMainActivity: Intent = Intent(this, MainActivity::class.java)
+                intentMainActivity.putExtra("currentUserID", currentUserID)
+                startActivity(intentMainActivity)
             } else {
                 // Start the Intro Activity
                 startActivity(Intent(this@SplashActivity, IntroActivity::class.java))
             }
             finish() // Call this when your activity is done and should be closed.
-        }, 2500) // Here we pass the delay time in milliSeconds after which the splash activity will disappear.
+        }, 1000) // Here we pass the delay time in milliSeconds after which the splash activity will disappear.
 
     }
 
-    public override fun onStart() {
-        super.onStart()
-        }
+    private fun hideSystemBars() {
+        val windowInsetsController =
+            ViewCompat.getWindowInsetsController(window.decorView) ?: return
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+    }
 }
