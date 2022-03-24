@@ -6,7 +6,7 @@
     android:theme="@style/Theme.Beso"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.newPost.NewPostFragment">
+    tools:context="com.twoplusapp.twoplus.ui.newPost.NewPostFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewActivity"
@@ -22,7 +22,7 @@
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:circularflow_radiusInDP="8"
-        tools:context=".ui.home.HomeFragment">
+        tools:context="com.twoplusapp.twoplus.ui.home.HomeFragment">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:theme="@style/Theme.Beso"
-    tools:context=".activities.MainActivity">
+    tools:context="com.twoplusapp.twoplus.activities.MainActivity">
 
     <include
         layout="@layout/app_bar_main"
