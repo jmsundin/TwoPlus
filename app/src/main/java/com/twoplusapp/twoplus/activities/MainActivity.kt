@@ -120,23 +120,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if (resultCode == Activity.RESULT_OK
-//            && requestCode == MY_PROFILE_REQUEST_CODE
-//        ) {
-//            // Get the user updated details.
-//            FirestoreClass().fetchUserData(this@MainActivity)
-//        } else if (resultCode == Activity.RESULT_OK
-//            && requestCode == CREATE_BOARD_REQUEST_CODE
-//        ) {
-//            // Get the latest boards list.
-////            FirestoreDB().getBoardsList(this@MainActivity)
-//        } else {
-//            Log.e("Cancelled", "Cancelled")
-//        }
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK
+            && requestCode == MY_PROFILE_REQUEST_CODE
+        ) {
+            // Get the user updated details.
+            FirestoreClass().fetchUserData(this@MainActivity)
+        } else if (resultCode == Activity.RESULT_OK
+            && requestCode == CREATE_BOARD_REQUEST_CODE
+        ) {
+            // Get the latest boards list.
+//            FirestoreDB().getBoardsList(this@MainActivity)
+        } else {
+            Log.e("Cancelled", "Cancelled")
+        }
+    }
 
     // A function to notify the token is updated successfully in the database.
     fun tokenUpdateSuccess() {

@@ -2,7 +2,7 @@ package com.twoplusapp.twoplus.ui.profile
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.media.Image
+
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,9 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.twoplusapp.twoplus.R
 import com.twoplusapp.twoplus.adapters.PostAdapter
 import com.twoplusapp.twoplus.database.FirestoreClass
+import com.twoplusapp.twoplus.databinding.FragmentHomeBinding
+import com.twoplusapp.twoplus.databinding.FragmentProfileBinding
 import com.twoplusapp.twoplus.models.PostModel
 import com.twoplusapp.twoplus.models.UserModel
 import com.twoplusapp.twoplus.utils.Constants
@@ -30,27 +33,29 @@ import kotlin.collections.ArrayList
 
 class ProfileFragment : Fragment() {
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var rvUserPosts: RecyclerView
     private lateinit var mPosts: ArrayList<PostModel>
     private lateinit var ivProfile: ImageView
     private lateinit var tvProfileFragUserName: TextView
 
+    // The onCreateView method is called when Fragment should create its View object hierarchy,
+    // either dynamically or via XML layout inflation.
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val rvUserPosts: RecyclerView? = view?.findViewById(R.id.rvUserPosts)
-        mPosts = Constants.postsList
-        rvUserPosts?.adapter = PostAdapter(mPosts)
-        // Set layout manager to position the items
-        rvUserPosts?.layoutManager = LinearLayoutManager(activity)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        return binding.root
     }
 
 
+    // This event is triggered soon after onCreateView().
+    // onViewCreated() is only called if the view returned from onCreateView() is non-null.
+    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         ivProfile = view.findViewById(R.id.ivProfileIconProfileFragment)
         tvProfileFragUserName = view.findViewById(R.id.tvProfileFragUserName)
@@ -61,8 +66,17 @@ class ProfileFragment : Fragment() {
             uploadImageFromGallery.launch(photoPickerIntent)
         }
 
+        // RECYCLERVIEW //
+        rvUserPosts = _binding!!.rvUserPosts
+        mPosts = Constants.postsList
+        // Create adapter, pass in user data, and attach the adapter to the recyclerview to
+        // populate items
+        rvUserPosts.adapter = PostAdapter(mPosts)
+        // Set layout manager to position the items
+        rvUserPosts.layoutManager = LinearLayoutManager(activity)
+
         // .loadUserData calls the ProfileFragment.updatedUserProfile method.
-        FirestoreClass().fetchUserData(activity=null, fragment=ProfileFragment())
+//        FirestoreClass().fetchUserData(activity=null, fragment=ProfileFragment())
     }
 
     fun loadUserProfile(loggedInUser: UserModel?){
@@ -80,20 +94,16 @@ class ProfileFragment : Fragment() {
         }
 
         // Load the user image into the Profile Fragment
-//        if (ivProfileIconProfileFragment != null) {
-//            Glide
-//                .with(ProfileFragment())
-//                .load(loggedInUser?.userProfileImage)
-//                .centerCrop()
-//                .placeholder(R.drawable.ic_baseline_account_circle_24)
-//                .into(ivProfileIconProfileFragment)
-//        }
+        Glide
+            .with(ProfileFragment())
+            .load(loggedInUser?.userProfileImage)
+            .centerCrop()
+            .placeholder(R.drawable.ic_baseline_account_circle_24)
+            .into(ivProfile)
     }
 
-    
     private var uploadImageFromGallery = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
+        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             // There are no request codes
             // doSomeOperations();
@@ -110,8 +120,8 @@ class ProfileFragment : Fragment() {
         }
     }
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//
-//    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
