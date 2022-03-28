@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import com.sundin.twoplus.R
+import com.twoplusapp.twoplus.R
 
 class PostActivity: BaseActivity() {
 
@@ -23,7 +23,7 @@ class PostActivity: BaseActivity() {
         findViewById<TextView>(R.id.tvPostDate).text = bundle.get("postDate") as String
         findViewById<TextView>(R.id.tvPostLocation).text = bundle.get("postLocation") as String
 
-        val btnBackPostActivity: ImageView = findViewById(R.id.btnBackPostActivity)
+        val btnBackPostActivity: ImageView = findViewById(R.id.btnBack)
         btnBackPostActivity.setOnClickListener {
             val intent: Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

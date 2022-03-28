@@ -12,18 +12,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.twoplusapp.twoplus.activities.*
 import com.twoplusapp.twoplus.models.UserModel
 import com.twoplusapp.twoplus.ui.profile.ProfileFragment
 import com.twoplusapp.twoplus.utils.Constants
-import com.twoplusapp.twoplus.activities.IntroActivity
-import com.twoplusapp.twoplus.activities.MainActivity
-import com.twoplusapp.twoplus.activities.SignInActivity
-import com.twoplusapp.twoplus.activities.SignUpActivity
 
 
-/**
- * A custom class where we will add the operation performed for the firestore database.
- */
+// A custom class where we will add the operation performed for the firestore database.
 class FirestoreClass {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -36,7 +31,6 @@ class FirestoreClass {
     }
 
     fun registerUser(activity: SignUpActivity, userInfo: UserModel) {
-
         mFireStore.collection(Constants.USERS)
             // Document ID for users fields. Here the document it is the User ID.
             .document(getCurrentUserID())
@@ -68,15 +62,12 @@ class FirestoreClass {
 
         if (currentUser != null) {
             currentUserID = currentUser.uid
-            Log.d("currentUserID: ", currentUserID)
         }
 
         return currentUserID
     }
 
     fun fetchUserData(activity: Activity?, fragment: Fragment? = null){
-        Log.d("currentUserID", getCurrentUserID())
-
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserID())
             .get()
@@ -85,11 +76,11 @@ class FirestoreClass {
 
                 when(activity){
                     is SignInActivity -> activity.signInSuccess(loggedInUser)
-                    is MainActivity -> activity.loadUserProfileData(loggedInUser)
+//                    is MainActivity -> activity.loadUserProfileData(loggedInUser)
+                    is SettingsActivity -> activity.loadUserData(loggedInUser)
                 }
                 when(fragment){
                     is ProfileFragment -> {
-                        Log.d("fetchUserData", loggedInUser.toString())
                         fragment.loadUserProfile(loggedInUser)
                     }
                 }
@@ -109,10 +100,12 @@ class FirestoreClass {
     }
 
     fun deleteAccount(context: Context){
-        FirebaseAuth.getInstance().currentUser?.let {
-            mFireStore.collection(Constants.USERS).document(
-                it.uid).delete()
-            .addOnSuccessListener {
+//        Log.d("deleteAccount","Outside let function")
+        FirebaseAuth.getInstance().currentUser?.let { it ->
+            Log.d("FirebaseUser", it.toString())
+            Log.d("FirebaseUserUID", it.uid)
+            mFireStore.collection(Constants.USERS).document(it.uid).delete()
+            .addOnSuccessListener { it ->
                 FirebaseAuth.getInstance().currentUser!!.delete().addOnCompleteListener { it ->
                     Log.d("deleteAccount", it.toString())
                     val intent: Intent = Intent(context, IntroActivity::class.java)

@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.sundin.twoplus.R
+import com.twoplusapp.twoplus.R
 import com.twoplusapp.twoplus.database.FirestoreClass
 import com.twoplusapp.twoplus.models.UserModel
 
@@ -33,15 +33,12 @@ class SignUpActivity: BaseActivity() {
 
 
     private fun setupActionBar() {
-//        val toolbarSignUpActivity = bindingSignUpScreen.toolbarSignUpActivity
         val toolbarSignUpActivity: androidx.appcompat.widget.Toolbar? =
             findViewById(R.id.toolbarSignUpActivity)
-        setSupportActionBar(toolbarSignUpActivity)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        toolbarSignUpActivity?.setOnClickListener { onBackPressed() }
-        toolbarSignUpActivity
+        toolbarSignUpActivity?.setOnClickListener {
+            onBackPressed()
+        }
     }
 
 
@@ -51,15 +48,17 @@ class SignUpActivity: BaseActivity() {
 //        val etEmail = bindingSignUpScreen.etEmail
 //        val etPassword = bindingSignUpScreen.etPassword
 
-        val etPersonName: EditText = findViewById(R.id.etPersonName)
+        val etPersonFirstName: EditText = findViewById(R.id.etPersonFirstName)
+        val etPersonLastName: EditText = findViewById(R.id.etPersonLastName)
         val etEmail: EditText = findViewById(R.id.etEmailSignUp)
         val etPassword: EditText = findViewById(R.id.etPasswordSignUp)
 
-        val name: String = etPersonName.text.toString().trim { it <= ' ' }
+        val first_name: String = etPersonFirstName.text.toString().trim( { it <= ' ' })
+        val last_name: String = etPersonLastName.text.toString().trim { it <= ' '}
         val email: String = etEmail.text.toString().trim { it <= ' ' }
         val password: String = etPassword.text.toString().trim { it <= ' ' }
 
-        if (validateForm(name, email, password)) {
+        if (validateForm(first_name, last_name, email, password)) {
             // Show the progress dialog.
             showProgressDialog(resources.getString(R.string.please_wait))
 
@@ -76,7 +75,11 @@ class SignUpActivity: BaseActivity() {
                         val registeredEmail = firebaseUser.email!!
 
                         val user = UserModel(
-                            firebaseUser.uid, R.drawable.man1_stock_photo.toString(), name, registeredEmail
+                            firebaseUser.uid,
+                            registeredEmail,
+                            R.drawable.man1_stock_photo.toString(),
+                            first_name,
+                            last_name,
                         )
                         // call the registerUser function of FirestoreClass to make an entry in the database.
                         FirestoreClass().registerUser(this@SignUpActivity, user)
@@ -92,10 +95,14 @@ class SignUpActivity: BaseActivity() {
         }
     }
 
-    private fun validateForm(name: String, email: String, password: String): Boolean {
+    private fun validateForm(first_name: String, last_name: String, email: String, password: String): Boolean {
         return when {
-            TextUtils.isEmpty(name) -> {
-                showErrorSnackBar("Please enter name.")
+            TextUtils.isEmpty(first_name) -> {
+                showErrorSnackBar("Please enter first name.")
+                false
+            }
+            TextUtils.isEmpty(last_name) -> {
+                showErrorSnackBar("Please enter last name.")
                 false
             }
             TextUtils.isEmpty(email) -> {

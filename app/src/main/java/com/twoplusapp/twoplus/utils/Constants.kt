@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
-import com.sundin.twoplus.R
+import com.twoplusapp.twoplus.R
 import com.twoplusapp.twoplus.models.PostModel
 import com.twoplusapp.twoplus.models.UserModel
 
@@ -36,9 +36,10 @@ object Constants {
 
     val userObj = UserModel(
         uid = "332323eee23p23",
+        userEmail = "johnsmith@gmail.com",
         userProfileImage = R.drawable.man1_stock_photo.toString(),
-        userPersonName = "John Smith",
-        userEmail = "johnsmith@gmail.com"
+        userFirstName = "John",
+        userLastName = "Smith",
         )
 
     val postsList = arrayListOf(

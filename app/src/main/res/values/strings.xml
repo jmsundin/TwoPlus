@@ -8,7 +8,13 @@
     <string name="title_create">Create</string>
     <string name="title_messages">Messages</string>
     <string name="title_profile">Profile</string>
-    <string name="sign_up">Sign Up</string>
+
+    <string name="sign_up">Sign Up with Email</string>
+    <string name="sign_up_message">Enter your name, email, and password to sign-up with TwoPlus</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="john_smith">John Smith</string>
+
     <string name="sign_in">Sign In</string>
     <string name="et_what_do_you_want_to_do">What do you want to do?</string>
     <string name="et_time">Time:</string>

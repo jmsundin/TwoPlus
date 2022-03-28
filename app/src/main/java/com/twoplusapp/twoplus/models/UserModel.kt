@@ -4,26 +4,29 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class UserModel(
-    val uid: String?,
-    val userEmail: String?,
-    val userProfileImage: String?,
-    val userPersonName: String?,
-): Parcelable {
+    val uid: String? = "",
+    val userEmail: String? = "",
+    val userProfileImage: String? = "",
+    val userFirstName: String? = "",
+    val userLastName: String? = "",
+    ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readString(),
     ) {
     }
 
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(uid)
-        if (userProfileImage != null) {
-            parcel.writeString(userProfileImage)
-        }
-        parcel.writeString(userPersonName)
         parcel.writeString(userEmail)
+        parcel.writeString(userProfileImage)
+        parcel.writeString(userFirstName)
+        parcel.writeString(userLastName)
+
     }
 
     override fun describeContents(): Int {

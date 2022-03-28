@@ -9,30 +9,33 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarSignUpActivity"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center">
 
         <ImageView
-            android:id="@+id/btnBackPostActivity"
+            android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:padding="15dp"
-            android:src="@drawable/ic_black_color_back_24dp"/>
+            android:src="@drawable/ic_black_color_back_24dp" />
         <TextView
+            android:id="@+id/app_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_height="match_parent"
             android:text="@string/sign_up"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textColor="#EFF1F1"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            />
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Enter your name, email, and password to sign-up with beso."
+        android:text="@string/sign_up_message"
         android:textSize="20dp"
         android:gravity="center"
         android:textColor="@color/white"/>
@@ -50,12 +53,24 @@
             android:background="@color/white">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etPersonName"
+                android:id="@+id/etPersonFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:hint="Name"
+                android:hint="@string/first_name"
                 android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etPersonLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="@string/last_name"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black" />
 
@@ -66,6 +81,7 @@
                 android:layout_margin="16dp"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
+                android:minHeight="48dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black" />
 
@@ -76,6 +92,7 @@
                 android:layout_margin="16dp"
                 android:hint="Password"
                 android:inputType="textPassword"
+                android:minHeight="48dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black" />
 

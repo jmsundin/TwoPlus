@@ -48,14 +48,14 @@
 
 
                     <TextView
-                        android:id="@+id/tvProfileName"
+                        android:id="@+id/tvProfileFragUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="32dp"
-                        android:text="John Smith"
                         android:textStyle="bold"
-                        android:textSize="30sp" />
+                        android:textSize="30sp"
+                        android:text="@string/john_smith"/>
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

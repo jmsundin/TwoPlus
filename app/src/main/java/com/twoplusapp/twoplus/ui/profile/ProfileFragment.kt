@@ -2,6 +2,7 @@ package com.twoplusapp.twoplus.ui.profile
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,16 +10,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sundin.twoplus.R
+import com.twoplusapp.twoplus.R
 import com.twoplusapp.twoplus.adapters.PostAdapter
 import com.twoplusapp.twoplus.database.FirestoreClass
-import com.sundin.twoplus.databinding.FragmentProfileBinding
 import com.twoplusapp.twoplus.models.PostModel
 import com.twoplusapp.twoplus.models.UserModel
 import com.twoplusapp.twoplus.utils.Constants
@@ -29,64 +30,27 @@ import kotlin.collections.ArrayList
 
 class ProfileFragment : Fragment() {
 
-    private var _binding: FragmentProfileBinding? = null
-
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
     private lateinit var rvUserPosts: RecyclerView
     private lateinit var mPosts: ArrayList<PostModel>
     private lateinit var ivProfile: ImageView
+    private lateinit var tvProfileFragUserName: TextView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
 
-        _binding = FragmentProfileBinding.inflate(inflater)
-        Log.d("bindingVariable", _binding.toString())
-
-        // .loadUserData calls the ProfileFragment.updatedUserProfile method.
-        FirestoreClass().fetchUserData(activity=null, fragment= ProfileFragment())
-
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-
-        // Recyclerview on User Profile - Posts //
-        rvUserPosts = _binding!!.rvUserPosts
-
+        val rvUserPosts: RecyclerView? = view?.findViewById(R.id.rvUserPosts)
         mPosts = Constants.postsList
-        rvUserPosts.adapter = PostAdapter(mPosts)
+        rvUserPosts?.adapter = PostAdapter(mPosts)
         // Set layout manager to position the items
-        rvUserPosts.layoutManager = LinearLayoutManager(activity)
+        rvUserPosts?.layoutManager = LinearLayoutManager(activity)
 
-        return binding.root
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    // TODO: Reference the appropriate IDs.
-    fun loadUserProfile(loggedInUser: UserModel?){
-        val ivProfileIconProfileFragment = _binding?.ivProfileIconProfileFragment
-        val tvProfileName = _binding?.tvProfileName
-
-        loggedInUser?.userProfileImage?.let { ivProfileIconProfileFragment?.setImageResource(it.toInt()) }
-        tvProfileName?.text = loggedInUser?.userPersonName
-        Log.d("tvProfileName", tvProfileName?.text.toString())
-
-//        val ivUserImage: ImageView = ImageView(context)
-        if (loggedInUser != null) {
-            loggedInUser.userProfileImage?.let { ivProfileIconProfileFragment?.setImageResource(it.toInt()) }
-            tvProfileName?.text = loggedInUser.userPersonName
-            Log.d("tvProfileName", tvProfileName?.text.toString())
-        }
-        // Load the user image into the Profile Fragment
-//        if (ivProfileIconProfileFragment != null) {
-//            Glide
-//                .with(ProfileFragment())
-//                .load(loggedInUser?.userProfileImage)
-//                .centerCrop()
-//                .placeholder(R.drawable.ic_baseline_account_circle_24)
-//                .into(ivProfileIconProfileFragment)
-//        }
-    }
-
-    var uploadImageFromGallery = registerForActivityResult(
+    private var uploadImageFromGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
@@ -107,17 +71,45 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         ivProfile = view.findViewById(R.id.ivProfileIconProfileFragment)
-            ivProfile.setOnClickListener {
-                Log.d("profileImageClick", "outside if statement")
+        tvProfileFragUserName = view.findViewById(R.id.tvProfileFragUserName)
 
-                val photoPickerIntent = Intent(Intent.ACTION_PICK)
-                photoPickerIntent.type = "image/*"
-                uploadImageFromGallery.launch(photoPickerIntent)
+        ivProfile.setOnClickListener {
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            uploadImageFromGallery.launch(photoPickerIntent)
+        }
+
+        // .loadUserData calls the ProfileFragment.updatedUserProfile method.
+        FirestoreClass().fetchUserData(activity=null, fragment=ProfileFragment())
+    }
+
+    fun loadUserProfile(loggedInUser: UserModel?){
+        loggedInUser?.userProfileImage?.let {it ->
+            if (this::ivProfile.isInitialized) {
+                ivProfile.setImageResource(it.toInt())
             }
+        }
+
+        val userFirstName: String? = loggedInUser?.userFirstName
+        val userLastName: String? = loggedInUser?.userLastName
+        val name = "$userFirstName $userLastName"
+        if (this::tvProfileFragUserName.isInitialized) {
+            tvProfileFragUserName.text = name
+        }
+
+        // Load the user image into the Profile Fragment
+//        if (ivProfileIconProfileFragment != null) {
+//            Glide
+//                .with(ProfileFragment())
+//                .load(loggedInUser?.userProfileImage)
+//                .centerCrop()
+//                .placeholder(R.drawable.ic_baseline_account_circle_24)
+//                .into(ivProfileIconProfileFragment)
+//        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//
+//    }
 }

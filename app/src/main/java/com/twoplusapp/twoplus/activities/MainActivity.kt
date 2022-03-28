@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
-import com.sundin.twoplus.R
+import com.twoplusapp.twoplus.R
 import com.twoplusapp.twoplus.database.FirestoreClass
 import com.twoplusapp.twoplus.models.UserModel
 import com.twoplusapp.twoplus.ui.home.HomeFragment
@@ -24,17 +24,15 @@ import com.twoplusapp.twoplus.ui.newPost.NewPostFragment
 import com.twoplusapp.twoplus.ui.messages.MessagesFragment
 import com.twoplusapp.twoplus.ui.profile.ProfileFragment
 import com.twoplusapp.twoplus.utils.Constants
+import com.twoplusapp.twoplus.activities.SettingsActivity
 
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    /**
-     * A companion object to declare the constants.
-     */
+    // A companion object to declare the constants.
     companion object {
         //A unique code for starting the activity for result
         const val MY_PROFILE_REQUEST_CODE: Int = 11
-
         const val CREATE_BOARD_REQUEST_CODE: Int = 12
     }
 
@@ -55,7 +53,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val currentUser = intent.extras
+//        val currentUser = intent.extras
 
         setContentView(R.layout.activity_main)
 
@@ -63,6 +61,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupActionBar()
 
         // Loading User Data into Drawer Navigation
+        // FirestoreClass calls MainActivity.loadUserData()
         FirestoreClass().fetchUserData(this@MainActivity)
 
         drawerLayout = findViewById(R.id.drawerLayout)
@@ -105,19 +104,77 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
+    private fun setupActionBar() {
+        setSupportActionBar(toolbarMainActivity)
+        toolbarMainActivity?.setNavigationIcon(R.drawable.ic_baseline_menu_24)
+        toolbarMainActivity?.setNavigationOnClickListener {
+            toggleDrawer()
+        }
+    }
+
+    private fun toggleDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+    }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (resultCode == Activity.RESULT_OK
+//            && requestCode == MY_PROFILE_REQUEST_CODE
+//        ) {
+//            // Get the user updated details.
+//            FirestoreClass().fetchUserData(this@MainActivity)
+//        } else if (resultCode == Activity.RESULT_OK
+//            && requestCode == CREATE_BOARD_REQUEST_CODE
+//        ) {
+//            // Get the latest boards list.
+////            FirestoreDB().getBoardsList(this@MainActivity)
+//        } else {
+//            Log.e("Cancelled", "Cancelled")
+//        }
+//    }
+
+    // A function to notify the token is updated successfully in the database.
+    fun tokenUpdateSuccess() {
+
+        hideProgressDialog()
+
+        // Here we have added a another value in shared preference that the token is updated in the database successfully.
+        // So we don't need to update it every time.
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putBoolean(Constants.FCM_TOKEN_UPDATED, true)
+        editor.apply()
+
+        // Get the current logged in user details.
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+//        FirestoreClass().fetchUserData(this@MainActivity)
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            // A double back press function is added in Base Activity.
+            doubleBackToExit()
+        }
+    }
+
     // Navigation Drawer
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        Log.d("drawer", "Drawer item selected: ${R.id.navigationDrawerSignout.toString()}")
         when (menuItem.itemId) {
             R.id.navigationDrawerSettings -> {
-                Log.d("settingsMenuItem", "Navigation Drawer Settings: ${R.id.navigationDrawerSettings.toString()}")
-                val intentSettings: Intent = Intent(this, Settings::class.java)
+                val intentSettings: Intent = Intent(this, SettingsActivity::class.java)
+//                FirestoreClass().fetchUserData(SettingsActivity())
                 startActivity(intentSettings)
             }
 
             // TODO: get Drawer Signout functionality working
             R.id.navigationDrawerSignout -> {
-                Log.d("signout", "Signout Button: ${R.id.navigationDrawerSignout.toString()}")
                 // Here sign outs the user from firebase in this device.
                 FirestoreClass().signOutUser()
 
@@ -183,79 +240,4 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
     }
-
-    private fun toggleDrawer() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
-    }
-
-    fun loadUserProfileData(loggedInUser: UserModel?) {
-//        hideProgressDialog()
-
-        // Load the user image into the Main Activity Drawer
-        Glide
-            .with(this@MainActivity)
-            .load(loggedInUser?.userProfileImage)
-            .centerCrop()
-            .placeholder(R.drawable.ic_baseline_account_circle_24)
-            .into(findViewById(R.id.ivProfileIcon));
-    }
-
-    private fun setupActionBar() {
-        setSupportActionBar(toolbarMainActivity)
-        toolbarMainActivity?.setNavigationIcon(R.drawable.ic_baseline_menu_24)
-        toolbarMainActivity?.setNavigationOnClickListener {
-            toggleDrawer()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK
-            && requestCode == MY_PROFILE_REQUEST_CODE
-        ) {
-            // Get the user updated details.
-            FirestoreClass().fetchUserData(this@MainActivity)
-        } else if (resultCode == Activity.RESULT_OK
-            && requestCode == CREATE_BOARD_REQUEST_CODE
-        ) {
-            // Get the latest boards list.
-//            FirestoreDB().getBoardsList(this@MainActivity)
-        } else {
-            Log.e("Cancelled", "Cancelled")
-        }
-    }
-
-    /**
-     * A function to notify the token is updated successfully in the database.
-     */
-    fun tokenUpdateSuccess() {
-
-        hideProgressDialog()
-
-        // Here we have added a another value in shared preference that the token is updated in the database successfully.
-        // So we don't need to update it every time.
-        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
-        editor.putBoolean(Constants.FCM_TOKEN_UPDATED, true)
-        editor.apply()
-
-        // Get the current logged in user details.
-        // Show the progress dialog.
-        showProgressDialog(resources.getString(R.string.please_wait))
-        FirestoreClass().fetchUserData(this@MainActivity)
-    }
-
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            // A double back press function is added in Base Activity.
-            doubleBackToExit()
-        }
-    }
-
 }

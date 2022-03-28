@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.twoplusapp.twoplus.database.FirestoreClass
 
-import com.sundin.twoplus.databinding.ActivitySplashBinding
+import com.twoplusapp.twoplus.databinding.ActivitySplashBinding
 
 
 class SplashActivity: BaseActivity() {

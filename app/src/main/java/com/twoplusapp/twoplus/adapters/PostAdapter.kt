@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.sundin.twoplus.R
+import com.twoplusapp.twoplus.R
 import com.twoplusapp.twoplus.activities.PostActivity
 import com.twoplusapp.twoplus.models.PostModel
 

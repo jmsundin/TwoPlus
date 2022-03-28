@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.sundin.twoplus.databinding.FragmentMapBinding
+import com.twoplusapp.twoplus.databinding.FragmentMapBinding
 
 class MapFragment : Fragment() {
 

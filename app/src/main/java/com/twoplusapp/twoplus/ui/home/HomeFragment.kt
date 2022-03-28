@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoplusapp.twoplus.adapters.PostAdapter
 import com.twoplusapp.twoplus.utils.Constants
-import com.sundin.twoplus.databinding.FragmentHomeBinding
+import com.twoplusapp.twoplus.databinding.FragmentHomeBinding
 import com.twoplusapp.twoplus.models.PostModel
 
 class HomeFragment : Fragment() {

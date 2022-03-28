@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.sundin.twoplus.R
-import com.sundin.twoplus.databinding.DialogProgressBinding
+import com.twoplusapp.twoplus.R
+import com.twoplusapp.twoplus.databinding.DialogProgressBinding
 
 
 open class BaseActivity : AppCompatActivity() {

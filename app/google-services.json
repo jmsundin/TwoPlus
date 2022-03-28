@@ -42,6 +42,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946499942931:android:bb5c018a55ab23a5821de6",
+        "android_client_info": {
+          "package_name": "com.twoplusapp.twoplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946499942931-ql7g5dpi4j1gqml99khs6ie8k7p8ubtd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO2GeG-g2BbopkFgxuZSWIIjDHeD3Diho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946499942931-ql7g5dpi4j1gqml99khs6ie8k7p8ubtd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

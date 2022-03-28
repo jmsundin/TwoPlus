@@ -14,8 +14,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.sundin.twoplus.R
-import com.sundin.twoplus.databinding.ActivitySignInBinding
+import com.twoplusapp.twoplus.R
+import com.twoplusapp.twoplus.databinding.ActivitySignInBinding
 import com.twoplusapp.twoplus.models.UserModel
 
 //import kotlinx.android.synthetic.main.activity_login.*
@@ -183,15 +183,11 @@ class SignInActivity : BaseActivity(){
 
     private fun setupActionBar() {
 
-        val toolbarSignInActivity = bindingSignInScreen.toolbarSignInActivity
-        setSupportActionBar(toolbarSignInActivity)
+        val toolbarSignInActivity: androidx.appcompat.widget.Toolbar?
+            = findViewById(R.id.toolbarSignInActivity)
 
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_black_color_back_24dp)
+        toolbarSignInActivity?.setOnClickListener {
+            onBackPressed()
         }
-
-        toolbarSignInActivity.setNavigationOnClickListener { onBackPressed() }
     }
 }

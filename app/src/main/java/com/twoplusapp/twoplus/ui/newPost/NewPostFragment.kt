@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.sundin.twoplus.R
+import com.twoplusapp.twoplus.R
 
-import com.sundin.twoplus.databinding.FragmentNewPostBinding
+import com.twoplusapp.twoplus.databinding.FragmentNewPostBinding
 import java.text.SimpleDateFormat
 import java.util.*
 

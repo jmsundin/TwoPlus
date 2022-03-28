@@ -3,7 +3,7 @@ package com.twoplusapp.twoplus.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import com.sundin.twoplus.R
+import com.twoplusapp.twoplus.R
 
 
 class IntroActivity: BaseActivity() {
