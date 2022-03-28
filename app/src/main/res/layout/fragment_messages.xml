@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.twoplusapp.twoplus.ui.messages.MessagesFragment">
+    tools:context="com.twoplusapp.twoplus.ui.messages.MessagesFragment"
+    android:theme="@style/Theme.TwoPlus">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

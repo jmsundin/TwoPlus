@@ -50,24 +50,6 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    private var uploadImageFromGallery = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            // There are no request codes
-            // doSomeOperations();
-            val data = result.data
-            val selectedImage: Uri? = Objects.requireNonNull(data)?.data
-            var imageStream: InputStream? = null
-            try {
-                imageStream = selectedImage?.let { activity?.contentResolver?.openInputStream(it) }
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-            }
-            BitmapFactory.decodeStream(imageStream)
-            ivProfile.setImageURI(selectedImage) // To display selected image in image view
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         ivProfile = view.findViewById(R.id.ivProfileIconProfileFragment)
@@ -106,6 +88,26 @@ class ProfileFragment : Fragment() {
 //                .placeholder(R.drawable.ic_baseline_account_circle_24)
 //                .into(ivProfileIconProfileFragment)
 //        }
+    }
+
+    
+    private var uploadImageFromGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            // There are no request codes
+            // doSomeOperations();
+            val data = result.data
+            val selectedImage: Uri? = Objects.requireNonNull(data)?.data
+            var imageStream: InputStream? = null
+            try {
+                imageStream = selectedImage?.let { activity?.contentResolver?.openInputStream(it) }
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+            BitmapFactory.decodeStream(imageStream)
+            ivProfile.setImageURI(selectedImage) // To display selected image in image view
+        }
     }
 
 //    override fun onDestroyView() {

@@ -42,12 +42,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationDrawerView: NavigationView
 
+    private val fm: FragmentManager = supportFragmentManager
     private val homeFragment: Fragment = HomeFragment()
     private val mapFragment: Fragment = MapFragment()
     private val newPostFragment: Fragment = NewPostFragment()
     private val messagesFragment: Fragment = MessagesFragment()
     private val profileFragment: Fragment = ProfileFragment()
-    private val fm: FragmentManager = supportFragmentManager
     private lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
