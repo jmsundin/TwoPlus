@@ -21,7 +21,6 @@ import com.bumptech.glide.Glide
 import com.twoplusapp.twoplus.R
 import com.twoplusapp.twoplus.adapters.PostAdapter
 import com.twoplusapp.twoplus.database.FirestoreClass
-import com.twoplusapp.twoplus.databinding.FragmentHomeBinding
 import com.twoplusapp.twoplus.databinding.FragmentProfileBinding
 import com.twoplusapp.twoplus.models.PostModel
 import com.twoplusapp.twoplus.models.UserModel
@@ -45,10 +44,11 @@ class ProfileFragment : Fragment() {
     // either dynamically or via XML layout inflation.
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        Log.i("binding.root", binding.root.toString())
         return binding.root
     }
 
@@ -57,6 +57,8 @@ class ProfileFragment : Fragment() {
     // onViewCreated() is only called if the view returned from onCreateView() is non-null.
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        _binding = FragmentProfileBinding.bind(view)
+
         ivProfile = view.findViewById(R.id.ivProfileIconProfileFragment)
         tvProfileFragUserName = view.findViewById(R.id.tvProfileFragUserName)
 
@@ -76,30 +78,29 @@ class ProfileFragment : Fragment() {
         rvUserPosts.layoutManager = LinearLayoutManager(activity)
 
         // .loadUserData calls the ProfileFragment.updatedUserProfile method.
-//        FirestoreClass().fetchUserData(activity=null, fragment=ProfileFragment())
+        FirestoreClass().fetchUserData(activity=null, fragment=ProfileFragment())
+
     }
 
     fun loadUserProfile(loggedInUser: UserModel?){
+//        Log.i("binding.root loadUserProfile", binding.root.toString())
+        // Load the user image into the Profile Fragment
+//        Glide
+//            .with(ProfileFragment())
+//            .load(loggedInUser?.userProfileImage)
+//            .centerCrop()
+//            .placeholder(R.drawable.ic_baseline_account_circle_24)
+//            .into(ivProfile)
+
         loggedInUser?.userProfileImage?.let {it ->
-            if (this::ivProfile.isInitialized) {
-                ivProfile.setImageResource(it.toInt())
-            }
+            binding.ivProfileIconProfileFragment.setImageResource(it.toInt())
         }
 
         val userFirstName: String? = loggedInUser?.userFirstName
         val userLastName: String? = loggedInUser?.userLastName
         val name = "$userFirstName $userLastName"
-        if (this::tvProfileFragUserName.isInitialized) {
-            tvProfileFragUserName.text = name
-        }
+        binding.tvProfileFragUserName.text = name
 
-        // Load the user image into the Profile Fragment
-        Glide
-            .with(ProfileFragment())
-            .load(loggedInUser?.userProfileImage)
-            .centerCrop()
-            .placeholder(R.drawable.ic_baseline_account_circle_24)
-            .into(ivProfile)
     }
 
     private var uploadImageFromGallery = registerForActivityResult(

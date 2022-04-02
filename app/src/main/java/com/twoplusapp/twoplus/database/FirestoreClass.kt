@@ -84,7 +84,6 @@ class FirestoreClass {
                         fragment.loadUserProfile(loggedInUser)
                     }
                 }
-
             }.addOnFailureListener{ e ->
                 Log.e(activity?.javaClass?.simpleName, "Error: $e")
             }
